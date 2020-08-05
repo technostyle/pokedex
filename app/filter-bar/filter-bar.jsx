@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export const SearchBar = () => {
+export const FilterBar = () => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)

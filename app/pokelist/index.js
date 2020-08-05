@@ -1,0 +1,1 @@
+export { Pokelist } from './pokelist'
