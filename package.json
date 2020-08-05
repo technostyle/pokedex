@@ -4,7 +4,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "lint": "eslint *.{html,js} ./app/**/*{js,jsx} --color --format stylish --fix"
+    "lint": "eslint *.js ./app/**/*{js,jsx} --color --format stylish --fix"
   },
   "devDependencies": {
     "@babel/core": "^7.11.0",
@@ -12,6 +12,8 @@
     "@babel/plugin-transform-runtime": "^7.11.0",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "axios": "^0.19.2",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
@@ -25,10 +27,10 @@
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-standard": "^4.0.1",
     "file-loader": "^6.0.0",
+    "fontsource-roboto": "^3.0.3",
     "html-webpack-plugin": "^4.3.0",
     "mini-css-extract-plugin": "^0.9.0",
-    "mobx": "^5.15.4",
-    "mobx-react": "^6.2.5",
+    "mobx-react-lite": "^2.0.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "style-loader": "^1.2.1",

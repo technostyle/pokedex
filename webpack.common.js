@@ -42,6 +42,14 @@ module.exports = {
             loader: 'file-loader'
           }
         ]
+      },
+      {
+        test: /\.(eot|woff(2)?|ttf)$/,
+        use: [
+          {
+            loader: 'file-loader'
+          }
+        ]
       }
     ]
   },
@@ -52,7 +60,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       title: 'Pokedex',
-      icon: 'https://pokeapi.co/favicon.ico',
+      // icon: 'https://pokeapi.co/favicon.ico',
+      icon: 'https://assets.pokemon.com/static2/_ui/img/favicon.ico',
       reactRootMount: 'root',
       template: path.resolve(__dirname, 'template.html')
     })
