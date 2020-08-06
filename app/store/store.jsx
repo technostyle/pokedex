@@ -8,15 +8,16 @@ const createStore = () => ({
   isLoading: false,
   pokelist: [],
   setPokelist (pokelist) { this.pokelist = pokelist },
-  page: 1,
+  page: 0,
   pageCount: 500,
   rowsPerPage: 10,
   setPage (page) {
     this.page = page
     this.fetchPokelist()
   },
-  setPageCount (pageCount) {
-    this.pageCount = pageCount
+  // TODO: add to init method in order to set loading
+  async fetchPageCount (pageCount) {
+    this.pageCount = await PokemonRepository.getPokemonsCount()
   },
   setRowsPerPage (rowsPerPage) { this.rowsPerPage = rowsPerPage; this.fetchPokelist() },
   get getParams () {
@@ -28,10 +29,8 @@ const createStore = () => ({
 
   async fetchPokelist () {
     this.isLoading = true
-    const response = await PokemonRepository.getPokemons(this.getParams)
-    const { pokemons, pokemonsCount } = response
+    const pokemons = await PokemonRepository.getPokemons(this.getParams)
     this.setPokelist(pokemons)
-    this.setPageCount(pokemonsCount)
     this.isLoading = false
   }
 })

@@ -5,6 +5,14 @@ export class PokemonRepository {
     this.service = pokemonService
   }
 
+  getPokemonsCount = async () => {
+    try {
+      return this.service.getPokemonsCount()
+    } catch (e) {
+      throw new Error(e)
+    }
+  }
+
   // TODO: refactor
   getPokemons = async ({ limit, offset }) => {
     let response = { results: [], count: 0 }
