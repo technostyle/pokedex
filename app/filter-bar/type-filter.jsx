@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Input from '@material-ui/core/Input'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -6,7 +6,8 @@ import FormControl from '@material-ui/core/FormControl'
 import ListItemText from '@material-ui/core/ListItemText'
 import Select from '@material-ui/core/Select'
 import Checkbox from '@material-ui/core/Checkbox'
-import Button from '@material-ui/core/Button'
+import { prop } from 'utils'
+import { PokemonService } from '../services'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -27,19 +28,6 @@ const MenuProps = {
   }
 }
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder'
-]
-
 function getStyles (name, personName, theme) {
   return {
     fontWeight:
@@ -52,25 +40,20 @@ function getStyles (name, personName, theme) {
 export const TypeFilter = () => {
   const classes = useStyles()
   const theme = useTheme()
+  const [types, setTypes] = useState([])
   const [personName, setPersonName] = React.useState([])
+
+  useEffect(() => {
+    const fetchPokemonTypes = async () => {
+      const { pokemonTypes } = await PokemonService.getPokemonTypes()
+      setTypes((pokemonTypes || []).map(prop('name')))
+    }
+
+    fetchPokemonTypes()
+  }, [])
 
   const handleChange = (event) => {
     setPersonName(event.target.value)
-  }
-
-  const onRemoveAll = () => {
-    setPersonName([])
-  }
-
-  const handleChangeMultiple = (event) => {
-    const { options } = event.target
-    const value = []
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value)
-      }
-    }
-    setPersonName(value)
   }
 
   return (
@@ -86,14 +69,13 @@ export const TypeFilter = () => {
           renderValue={(selected) => `Selected ${selected.length}`}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
-            <MenuItem key={name} value={name}>
-              <Checkbox checked={personName.indexOf(name) > -1} />
-              <ListItemText primary={name} />
+          {types.map((type) => (
+            <MenuItem key={type} value={type}>
+              <Checkbox checked={personName.indexOf(type) > -1} />
+              <ListItemText primary={type} />
             </MenuItem>
           ))}
         </Select>
-        <Button onClick={onRemoveAll}>Clear all</Button>
       </FormControl>
     </div>
   )

@@ -36,4 +36,18 @@ export class PokemonService {
       throw new Error(e)
     }
   }
+
+  getPokemonTypes = async () => {
+    let pokemonTypes, pokemonTypesCount
+    // TODO: move api logic to pokemon-handler
+    try {
+      const pokemonsResponse = await request.get(`${REQUEST_URL}/type`)
+      pokemonTypesCount = get(pokemonsResponse, 'data.count', 0)
+      pokemonTypes = get(pokemonsResponse, 'data.results', [])
+    } catch (e) {
+      throw new Error(e)
+    }
+
+    return { pokemonTypes, pokemonTypesCount }
+  }
 }
