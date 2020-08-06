@@ -10,6 +10,9 @@ import { equals, prop } from '../utils'
 export const InfoDialog = observer(({ open, onClose, pokemonName }) => {
   const store = useStore()
   const pokelist = store.pokelist
+  if (!pokelist) {
+    return null
+  }
   const pokemon = pokelist.find(flow(prop('name'), equals(pokemonName)))
 
   return (

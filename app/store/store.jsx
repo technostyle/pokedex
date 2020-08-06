@@ -1,6 +1,7 @@
 import React from 'react'
 import { useLocalStore } from 'mobx-react'
-import { PokemonRepository } from 'repositories/pokemon-repository' // 6.x or mobx-react-lite@1.4.0
+import { PokemonRepository } from 'repositories/pokemon-repository'
+import { FilterRepository } from 'repositories/filter-repository'
 
 const storeContext = React.createContext(null)
 
@@ -32,6 +33,12 @@ const createStore = () => ({
     const pokemons = await PokemonRepository.getPokemons(this.getParams)
     this.setPokelist(pokemons)
     this.isLoading = false
+  },
+
+  async filterPokemonsBySubstring (searchText) {
+    this.isLoading = true
+    this.pokelist = await FilterRepository.getPokemonsFilteredBySubstring(searchText)
+    this.isLoading = false
   }
 })
 
@@ -43,7 +50,6 @@ export const StoreProvider = ({ children }) => {
 export const useStore = () => {
   const store = React.useContext(storeContext)
   if (!store) {
-    // this is especially useful in TypeScript so you don't need to be checking for null all the time
     throw new Error('useStore must be used within a StoreProvider.')
   }
   return store

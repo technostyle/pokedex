@@ -1,8 +1,12 @@
-import { pickBy, identity } from 'lodash'
+import { debounce } from 'lodash'
 import { prop } from 'utils'
+import { asyncDebounce } from '../../utils/async-debounce'
+
+const FILTER_DEBOUNCE_TIME = 300
 
 export class FilterRepository {
-  constructor (pokemonService) {
+  constructor (pokemonRepository, pokemonService) {
+    this.repository = pokemonRepository
     this.service = pokemonService
     this.allPokemonNames = []
     this.storeAllPokemonNames()
@@ -22,4 +26,9 @@ export class FilterRepository {
     const substr = substring.toLowerCase()
     return this.allPokemonNames.filter(name => name.includes(substr))
   }
+
+  getPokemonsFilteredBySubstring = asyncDebounce(async (substring) => {
+    const pokemonNames = this.getPokemonNamesBySubstring(substring)
+    return await this.repository.getPokemonsByNames(pokemonNames)
+  }, FILTER_DEBOUNCE_TIME);
 }

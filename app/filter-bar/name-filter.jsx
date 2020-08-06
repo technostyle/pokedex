@@ -1,12 +1,9 @@
-import React from 'react'
-import { fade, makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import InputBase from '@material-ui/core/InputBase'
+import React, { useState, useEffect } from 'react'
 import SearchIcon from '@material-ui/icons/Search'
-import { TypeFilter } from './type-filter'
-import { NameFilter } from './name-filter'
+import InputBase from '@material-ui/core/InputBase'
+import { fade, makeStyles } from '@material-ui/core/styles'
+import { observer } from 'mobx-react-lite'
+import { useStore } from '../store'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -72,29 +69,36 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export const FilterBar = () => {
+export const NameFilter = observer(() => {
+  const [searchText, setSearchText] = useState('')
+  const store = useStore()
+
+  const onChange = event => {
+    const value = event.target.value
+    setSearchText(value)
+    // store.setSearchSubstring(value)
+  }
+
+  useEffect(() => {
+    const filterPokemonsBySubstring = async () => { await store.filterPokemonsBySubstring(searchText) }
+    filterPokemonsBySubstring()
+  }, [searchText])
+
   const classes = useStyles()
 
-  return (
-    <div className={classes.grow}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Filter name
-          </Typography>
-          <NameFilter />
-          <div className={classes.grow} />
-          <Typography className={classes.title} variant="h6" noWrap>
-            Filter types
-          </Typography>
-          <div className={classes.sectionDesktop}>
-            <TypeFilter/>
-          </div>
-          <div className={classes.sectionMobile}>
-            <TypeFilter/>
-          </div>
-        </Toolbar>
-      </AppBar>
+  return (<div className={classes.search}>
+    <div className={classes.searchIcon}>
+      <SearchIcon />
     </div>
+    <InputBase
+      placeholder="Search…"
+      classes={{
+        root: classes.inputRoot,
+        input: classes.inputInput
+      }}
+      inputProps={{ 'aria-label': 'search' }}
+      onChange={onChange}
+    />
+  </div>
   )
-}
+})
