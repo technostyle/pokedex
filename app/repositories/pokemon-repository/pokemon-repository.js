@@ -1,6 +1,6 @@
 import { pickBy, identity } from 'lodash'
 
-export class PokemonHandler {
+export class PokemonRepository {
   constructor (pokemonService) {
     this.service = pokemonService
   }

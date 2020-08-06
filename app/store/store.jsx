@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocalStore } from 'mobx-react'
-import { PokemonHandler } from '../data-handler' // 6.x or mobx-react-lite@1.4.0
+import { PokemonRepository } from 'repositories/pokemon-repository' // 6.x or mobx-react-lite@1.4.0
 
 const storeContext = React.createContext(null)
 
@@ -28,7 +28,7 @@ const createStore = () => ({
 
   async fetchPokelist () {
     this.isLoading = true
-    const response = await PokemonHandler.getPokemons(this.getParams)
+    const response = await PokemonRepository.getPokemons(this.getParams)
     const { pokemons, pokemonsCount } = response
     this.setPokelist(pokemons)
     this.setPageCount(pokemonsCount)
