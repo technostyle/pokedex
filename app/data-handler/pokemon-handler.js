@@ -7,14 +7,15 @@ export class PokemonHandler {
 
   // TODO: refactor
   getPokemons = async ({ limit, offset }) => {
-    let pokemons
+    let response = { results: [], count: 0 }
+    // filtering empty values
     const params = pickBy({ limit, offset }, identity)
     try {
-      pokemons = this.service.getPokemons(params)
+      response = this.service.getPokemons(params)
     } catch (e) {
       throw new Error(e)
     }
 
-    return pokemons
+    return response
   }
 }

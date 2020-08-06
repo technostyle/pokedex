@@ -9,15 +9,18 @@ export class PokemonService {
   }
 
   getPokemons = async (limitOffset) => {
-    let pokemonsRawList
+    let pokemonsRawList, pokemonsCount
+    // TODO: move api logic to pokemon-handler
     try {
-      pokemonsRawList = await request.get(`${REQUEST_URL}/pokemon`, limitOffset)
-      pokemonsRawList = get(pokemonsRawList, 'data.results', [])
+      const pokemonsResponse = await request.get(`${REQUEST_URL}/pokemon`, limitOffset)
+      pokemonsCount = get(pokemonsResponse, 'data.count', 0)
+      pokemonsRawList = get(pokemonsResponse, 'data.results', [])
     } catch (e) {
       throw new Error(e)
     }
 
-    return await this.getPokemonForm(pokemonsRawList)
+    const pokemons = await this.getPokemonForm(pokemonsRawList)
+    return { pokemons, pokemonsCount }
   }
 
   getPokemonForm = async (pokemonsRawList) => {

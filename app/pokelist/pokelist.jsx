@@ -5,6 +5,7 @@ import { arrayPartition } from 'utils'
 import { Pokecard } from './pokecard'
 import { useStore } from '../store'
 import { observer } from 'mobx-react-lite'
+import { Spinner } from '../components/spinner'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +26,7 @@ const FormRow = ({ row }) => {
   )
 }
 
-export const Pokelist = ({ pokelist }) => {
+export const Pokelist = ({ pokelist, isLoading }) => {
   const classes = useStyles()
 
   const cols = 3
@@ -33,14 +34,18 @@ export const Pokelist = ({ pokelist }) => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
-        {/* TODO: make proper idx */}
-        {rowsList.map((row, idx) => (
-          <Grid key={idx} container item xs={12} spacing={3}>
-            <FormRow row={row}/>
+      {
+        isLoading
+          ? <Spinner/>
+          : <Grid container spacing={1}>
+            {/* TODO: make proper idx */}
+            {rowsList.map((row, idx) => (
+              <Grid key={idx} container item xs={12} spacing={3}>
+                <FormRow row={row}/>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+      }
     </div>
   )
 }
