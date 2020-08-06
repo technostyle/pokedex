@@ -17,7 +17,10 @@ export const InfoDialog = observer(({ open, onClose, pokemonName }) => {
       <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
         <Typography variant="subtitle1">Selected</Typography>
         <DialogTitle id="simple-dialog-title">{pokemonName}</DialogTitle>
-        {pokemon && <div> {pokemon.name} </div>}
+        {pokemon && <div> {`species : ${pokemon.species}`} </div>}
+        {pokemon && <div> {`height : ${pokemon.height}`} </div>}
+        {pokemon && <div> {`weight : ${pokemon.weight}`} </div>}
+        {pokemon && <div> {pokemon.abilities.map(ability => <div key={ability}> {`ability: ${ability}`} </div>)} </div>}
         {pokemon && <div> {pokemon.avatar} </div>}
         {pokemon && <div> {pokemon.type} </div>}
         <div> {pokelist.length} </div>
