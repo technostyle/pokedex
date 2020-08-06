@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import Chip from '@material-ui/core/Chip'
 
 const useStyles = makeStyles({
   root: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles({
   }
 })
 
-export default function MediaCard () {
+export const Pokecard = ({ name, avatar, type }) => {
   const classes = useStyles()
 
   return (
@@ -25,16 +26,18 @@ export default function MediaCard () {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
+          title={name}
+          image={avatar}
         />
+        {/* TODO: добавить описание */}
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {name}
+          </Typography>
+          <Typography gutterBottom variant="h6" component="h6">
+            <Chip variant="outlined" color="primary" label={type}/>
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
           </Typography>
         </CardContent>
       </CardActionArea>

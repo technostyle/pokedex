@@ -1,52 +1,45 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
+import { arrayPartition } from 'utils'
+import { Pokecard } from './pokecard'
+import { useStore } from '../store'
+import { observer } from 'mobx-react-lite'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1
-  },
-  paper: {
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary
   }
 }))
 
-const FormRow = () => {
+const FormRow = ({ row }) => {
   const classes = useStyles()
 
   return (
     <React.Fragment>
-      <Grid item xs={4}>
-        <Paper className={classes.paper}>item</Paper>
+      {row.map(({ name, avatar, type }, idx) => (<Grid key={idx} item xs={4}>
+        <Pokecard name={name} avatar={avatar} type={type}/>
       </Grid>
-      <Grid item xs={4}>
-        <Paper className={classes.paper}>item</Paper>
-      </Grid>
-      <Grid item xs={4}>
-        <Paper className={classes.paper}>item</Paper>
-      </Grid>
+      ))}
     </React.Fragment>
   )
 }
 
-export const Pokelist = () => {
+export const Pokelist = ({ pokelist }) => {
   const classes = useStyles()
+
+  const cols = 3
+  const rowsList = arrayPartition(pokelist, cols)
 
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-        <Grid container item xs={12} spacing={3}>
-          <FormRow />
-        </Grid>
-        <Grid container item xs={12} spacing={3}>
-          <FormRow />
-        </Grid>
-        <Grid container item xs={12} spacing={3}>
-          <FormRow />
-        </Grid>
+        {/* TODO: make proper idx */}
+        {rowsList.map((row, idx) => (
+          <Grid key={idx} container item xs={12} spacing={3}>
+            <FormRow row={row}/>
+          </Grid>
+        ))}
       </Grid>
     </div>
   )
