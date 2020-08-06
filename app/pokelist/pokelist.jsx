@@ -5,6 +5,7 @@ import { arrayPartition } from 'utils'
 import { Pokecard } from './pokecard'
 import { Spinner } from '../components/spinner'
 import { InfoDialog } from './info-dialog'
+import { EmptyGrid } from '../components/empty-grid'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,9 +18,10 @@ const FormRow = ({ row, onCardClick }) => {
 
   return (
     <React.Fragment>
-      {row.map(({ name, avatar, types }, idx) => (<Grid key={idx} item xs={4}>
-        <Pokecard name={name} avatar={avatar} types={types} onCardClick={onCardClick}/>
-      </Grid>
+      {row.map(({ name, avatar, types }, idx) => (
+        <Grid key={idx} item xs={4}>
+          <Pokecard name={name} avatar={avatar} types={types} onCardClick={onCardClick}/>
+        </Grid>
       ))}
     </React.Fragment>
   )
@@ -49,11 +51,14 @@ export const Pokelist = ({ pokelist, isLoading }) => {
           ? <Spinner/>
           : <Grid container spacing={1}>
             {/* TODO: make proper idx */}
-            {rowsList.map((row, idx) => (
-              <Grid key={idx} container item xs={12} spacing={3}>
-                <FormRow row={row} onCardClick={onCardClick}/>
-              </Grid>
-            ))}
+            {rowsList.length
+              ? rowsList.map((row, idx) => (
+                <Grid key={idx} container item xs={12} spacing={3}>
+                  <FormRow row={row} onCardClick={onCardClick}/>
+                </Grid>
+              ))
+              : <EmptyGrid title='No Pokemons'/>
+            }
             <InfoDialog open={isInfoModalOpen} onClose={onInfoModalClose} pokemonName={selectedPokemon}/>
           </Grid>
       }
