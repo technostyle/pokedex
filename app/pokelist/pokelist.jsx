@@ -17,8 +17,8 @@ const FormRow = ({ row, onCardClick }) => {
 
   return (
     <React.Fragment>
-      {row.map(({ name, avatar, type }, idx) => (<Grid key={idx} item xs={4}>
-        <Pokecard name={name} avatar={avatar} type={type} onCardClick={onCardClick}/>
+      {row.map(({ name, avatar, types }, idx) => (<Grid key={idx} item xs={4}>
+        <Pokecard name={name} avatar={avatar} types={types} onCardClick={onCardClick}/>
       </Grid>
       ))}
     </React.Fragment>

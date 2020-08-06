@@ -1,4 +1,5 @@
-import { pickBy, identity } from 'lodash'
+import { get } from 'lodash'
+import { prop } from 'utils'
 
 export class PokemonRepository {
   constructor (pokemonService) {
@@ -13,17 +14,19 @@ export class PokemonRepository {
     }
   }
 
-  // TODO: refactor
   getPokemons = async ({ limit, offset }) => {
-    let response = { results: [], count: 0 }
-    // filtering empty values
-    const params = pickBy({ limit, offset }, identity)
     try {
-      response = this.service.getPokemons(params)
+      const rawPokemonsNames = await this.service.getPokemonNames({ limit, offset })
+      const pokemonNames = rawPokemonsNames.map(prop('name'))
+      const promises = pokemonNames.map(this.service.getFullPokemonInfo)
+      const rawPokemons = await Promise.all(promises)
+      return rawPokemons.map(pokemon => ({
+        name: get(pokemon, 'data.name'),
+        avatar: get(pokemon, 'data.sprites.front_default'),
+        types: get(pokemon, 'data.types', []).map(prop('type.name'))
+      }))
     } catch (e) {
       throw new Error(e)
     }
-
-    return response
   }
 }

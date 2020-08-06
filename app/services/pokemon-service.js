@@ -27,9 +27,16 @@ export class PokemonService {
     }
   }
 
+  getFullPokemonInfo = async (name) => {
+    try {
+      return await request.get(`${REQUEST_URL}/pokemon/${name}`)
+    } catch (e) {
+      throw new Error(e)
+    }
+  }
+
   getPokemons = async (limitOffset) => {
     let pokemonsRawList
-    // TODO: move api logic to pokemon-handler
     try {
       const pokemonsResponse = await request.get(`${REQUEST_URL}/pokemon`, limitOffset)
       pokemonsRawList = get(pokemonsResponse, 'data.results', [])
