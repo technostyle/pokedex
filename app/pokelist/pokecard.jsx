@@ -18,11 +18,11 @@ const useStyles = makeStyles({
   }
 })
 
-export const Pokecard = ({ name, avatar, type }) => {
+export const Pokecard = ({ name, avatar, type, onCardClick }) => {
   const classes = useStyles()
-
+  const onClick = () => onCardClick(name)
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} onClick={onClick}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
