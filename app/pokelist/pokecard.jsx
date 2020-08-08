@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   }
 })
 
-export const Pokecard = ({ name, avatar, types, height, weight, onCardClick }) => {
+export const Pokecard = ({ name, avatar, types, baseExperience, height, weight, onCardClick }) => {
   const classes = useStyles()
   const onClick = () => onCardClick(name)
   return (
@@ -34,6 +34,9 @@ export const Pokecard = ({ name, avatar, types, height, weight, onCardClick }) =
           </Typography>
           <Typography gutterBottom variant="h6" component="h6">
             {types.map(type => <Chip key={type} variant="outlined" color="primary" label={type}/>)}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {`baseExperience: ${baseExperience}`}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {`height: ${height} weight: ${weight}`}
