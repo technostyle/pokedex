@@ -3,9 +3,7 @@ import { fade, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import { TypeFilter } from './type-filter'
 import { NameFilter } from './name-filter'
-import { useWindowSize } from '../hooks/window-size'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -72,10 +70,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const FilterBar = () => {
-  const windowSize = useWindowSize()
   const classes = useStyles()
-
-  const shouldRenderTypeSearch = windowSize.width >= 720
 
   return (
     <div className={classes.grow}>
@@ -85,24 +80,6 @@ export const FilterBar = () => {
             Filter name
           </Typography>
           <NameFilter />
-          <div className={classes.grow} />
-          {
-            shouldRenderTypeSearch
-              ? (
-                <>
-                  <Typography className={classes.title} variant="h6" noWrap>
-              Filter types
-                  </Typography>
-                  <div className={classes.sectionDesktop}>
-                    <TypeFilter/>
-                  </div>
-                  <div className={classes.sectionMobile}>
-                    <TypeFilter/>
-                  </div>
-                </>
-              )
-              : null
-          }
         </Toolbar>
       </AppBar>
     </div>
