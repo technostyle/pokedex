@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2)
   },
   placeholder: {
-    height: 40
+    height: 60
   }
 }))
 
@@ -22,7 +22,7 @@ export const Spinner = () => {
   return (
     <div className={classes.root}>
       <div className={classes.placeholder}>
-        <CircularProgress />
+        <CircularProgress size={60}/>
       </div>
     </div>
   )
