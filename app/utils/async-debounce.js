@@ -10,6 +10,6 @@ export const asyncDebounce = (inner, ms = 0) => {
       resolves = []
     }, ms)
 
-    return new Promise(resolove => resolves.push(resolove))
+    return new Promise((resolve) => resolves.push(resolve))
   }
 }

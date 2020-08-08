@@ -1,4 +1,4 @@
-import { PokemonService } from 'services'
-import { PokemonRepository as PokemonRepositoryFabric } from './pokemon-repository'
+import { pokemonService } from 'services/pokemon-service'
+import { PokemonRepository } from './pokemon-repository'
 
-export const PokemonRepository = new PokemonRepositoryFabric(PokemonService)
+export const pokemonRepository = new PokemonRepository(pokemonService)

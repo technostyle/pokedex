@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { observer } from 'mobx-react-lite'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import { arrayPartition } from 'utils'
@@ -6,6 +7,7 @@ import { Pokecard } from './pokecard'
 import { Spinner } from '../components/spinner'
 import { InfoDialog } from './info-dialog'
 import { EmptyGrid } from '../components/empty-grid'
+import { useStore } from '../store'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,8 +16,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const FormRow = ({ row, onCardClick }) => {
-  const classes = useStyles()
-
   return (
     <React.Fragment>
       {row.map(({ name, avatar, types, baseExperience, height, weight }, idx) => (
@@ -27,7 +27,9 @@ const FormRow = ({ row, onCardClick }) => {
   )
 }
 
-export const Pokelist = ({ pokelist, isLoading }) => {
+export const Pokelist = observer(() => {
+  const store = useStore()
+
   const [isInfoModalOpen, setInfoModalOpen] = useState(false)
   const [selectedPokemon, setSelectedPokemon] = useState(null)
   const onCardClick = (name) => {
@@ -42,12 +44,12 @@ export const Pokelist = ({ pokelist, isLoading }) => {
   const classes = useStyles()
 
   const cols = 3
-  const rowsList = arrayPartition(pokelist, cols)
+  const rowsList = arrayPartition(store.pokelist, cols)
 
   return (
     <div className={classes.root}>
       {
-        isLoading
+        store.isLoading
           ? <Spinner/>
           : <Grid container spacing={1}>
             {/* TODO: make proper idx */}
@@ -64,4 +66,4 @@ export const Pokelist = ({ pokelist, isLoading }) => {
       }
     </div>
   )
-}
+})

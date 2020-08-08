@@ -1,6 +1,6 @@
 import React from 'react'
-import { useLocalStore } from 'mobx-react'
-import { PokemonRepository } from 'repositories/pokemon-repository'
+import { useLocalStore } from 'mobx-react-lite'
+import { pokemonRepository } from 'repositories/pokemon-repository'
 
 const storeContext = React.createContext(null)
 
@@ -20,7 +20,8 @@ const createStore = () => ({
 
   async init () {
     this.isLoading = true
-    await PokemonRepository.init()
+    await pokemonRepository.init()
+    await this.fetchPokelist()
     this.isLoading = false
   },
 
@@ -28,8 +29,8 @@ const createStore = () => ({
 
   async fetchPokelist () {
     this.isLoading = true
-    this.pokelist = await PokemonRepository.properGetPokemons(this.getParams)
-    this.pageCount = await PokemonRepository.properGetPageCount()
+    this.pokelist = await pokemonRepository.properGetPokemons(this.getParams)
+    this.pageCount = await pokemonRepository.properGetPageCount()
     this.isLoading = false
   },
 

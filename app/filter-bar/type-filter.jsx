@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Input from '@material-ui/core/Input'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Select from '@material-ui/core/Select'
 import Checkbox from '@material-ui/core/Checkbox'
 import { prop } from 'utils'
-import { PokemonService } from '../services'
+import { pokemonService } from '../services/pokemon-service'
 import { observer } from 'mobx-react-lite'
 import { useStore } from 'store'
 
@@ -30,18 +30,8 @@ const MenuProps = {
   }
 }
 
-function getStyles (name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium
-  }
-}
-
 export const TypeFilter = observer(() => {
   const classes = useStyles()
-  const theme = useTheme()
   const [types, setTypes] = useState([])
   const [personName, setPersonName] = React.useState([])
 
@@ -49,7 +39,7 @@ export const TypeFilter = observer(() => {
 
   useEffect(() => {
     const fetchPokemonTypes = async () => {
-      const { pokemonTypes } = await PokemonService.getPokemonTypes()
+      const { pokemonTypes } = await pokemonService.getPokemonTypes()
       setTypes((pokemonTypes || []).map(prop('name')))
     }
 

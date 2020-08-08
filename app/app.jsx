@@ -12,7 +12,7 @@ import { observer } from 'mobx-react-lite'
 export const App = observer(() => {
   const store = useStore()
   useEffect(() => {
-    const init = async () => { await store.init(); await store.fetchPokelist() }
+    const init = async () => { await store.init() }
     init()
   }, [])
 
@@ -21,7 +21,7 @@ export const App = observer(() => {
     <Container maxWidth="lg">
       <Header text="Pokedex"/>
       <FilterBar />
-      <Pokelist pokelist={store.pokelist} isLoading={store.isLoading}/>
+      <Pokelist />
       <Pagination />
     </Container>
   </>

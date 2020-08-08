@@ -1,19 +1,16 @@
 import { get } from 'lodash'
 import { prop } from './collections'
 
+/* eslint-disable camelcase */
 export const mapPokemonFromServerToClient = pokemon => ({
   name: get(pokemon, 'data.name'),
   avatar: get(pokemon, 'data.sprites.front_default'),
   types: get(pokemon, 'data.types', []).map(prop('type.name')),
-  // TODO rewrite eslint rule
-  /* eslint-disable-next-line */
-  abilities: get(pokemon, 'data.abilities', []).map(({is_hidden, ability}) => ({
-    /* eslint-disable-next-line */
+  abilities: get(pokemon, 'data.abilities', []).map(({ is_hidden, ability }) => ({
     hidden: `hidden: ${is_hidden ? 'yes' : 'no'}`,
     name: get(ability, 'name')
   })),
   species: get(pokemon, 'data.species.name'),
-  /* eslint-disable-next-line */
   stats: get(pokemon, 'data.stats', []).map(({ base_stat, effort, stat }) => ({
     name: stat.name,
     baseStat: base_stat,
@@ -23,3 +20,4 @@ export const mapPokemonFromServerToClient = pokemon => ({
   height: get(pokemon, 'data.height'),
   weight: get(pokemon, 'data.weight')
 })
+/* eslint-enable camelcase */
