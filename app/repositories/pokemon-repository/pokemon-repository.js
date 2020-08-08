@@ -32,7 +32,7 @@ export class PokemonRepository {
     }
   }
 
-  properGetPageCount = () => {
+  getPageCount = () => {
     return this.count
   }
 
@@ -54,12 +54,12 @@ export class PokemonRepository {
     }
   }
 
-  properGetPokemons = async ({ filters, limit, offset }) => {
-    const pokemonNames = await this.properGetPokemonNames({ filters, limit, offset })
+  getPokemons = async ({ filters, limit, offset }) => {
+    const pokemonNames = await this.getPokemonNames({ filters, limit, offset })
     return await this.getPokemonsByNames(pokemonNames)
   }
 
-  properGetFilteredPokemonNames = asyncDebounce(async (filters) => {
+  getFilteredPokemonNames = asyncDebounce(async (filters) => {
     let pokemonNames = this.allPokemonNames
 
     if (filters?.types?.length) {
@@ -73,11 +73,11 @@ export class PokemonRepository {
     return pokemonNames
   }, FILTER_DEBOUNCE_TIME)
 
-  properGetPokemonNames = async ({ filters, limit, offset }) => {
+  getPokemonNames = async ({ filters, limit, offset }) => {
     let pokemonNames = this.allPokemonNames
 
     if (filters?.types?.length || filters?.searchText) {
-      pokemonNames = await this.properGetFilteredPokemonNames(filters)
+      pokemonNames = await this.getFilteredPokemonNames(filters)
     }
 
     this.count = pokemonNames.length

@@ -29,8 +29,8 @@ const createStore = () => ({
 
   async fetchPokelist () {
     this.isLoading = true
-    this.pokelist = await pokemonRepository.properGetPokemons(this.getParams)
-    this.pageCount = await pokemonRepository.properGetPageCount()
+    this.pokelist = await pokemonRepository.getPokemons(this.getParams)
+    this.pageCount = await pokemonRepository.getPageCount()
     this.isLoading = false
   },
 
