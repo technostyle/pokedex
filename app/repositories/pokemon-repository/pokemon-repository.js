@@ -34,6 +34,14 @@ export class PokemonRepository {
     return this.count
   }
 
+  async getPageCount () {
+    if (this.filters?.searchText || this.filters?.types?.length) {
+      return this.count
+    } else {
+      return await this.getPokemonsCount()
+    }
+  }
+
   getPokemonsCount = async () => {
     try {
       return this.service.getPokemonsCount()
@@ -53,6 +61,8 @@ export class PokemonRepository {
   }
 
   getPokemons = async ({ filters, limit, offset }) => {
+    this.filters = filters
+
     if (!isEmpty(filters)) {
       return await this.getFilteredPokemons(filters, limit, offset)
     }

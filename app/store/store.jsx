@@ -7,15 +7,30 @@ const storeContext = React.createContext(null)
 const createStore = () => ({
   isLoading: false,
   pokelist: [],
-  setPokelist (pokelist) { this.pokelist = pokelist },
   page: 0,
   // TODO: rename count
   pageCount: 0,
   rowsPerPage: 10,
   filters: {},
+
   setPage (page) {
     this.page = page
     this.fetchPokelist()
+  },
+
+  setRowsPerPage (rowsPerPage) { this.rowsPerPage = rowsPerPage; this.fetchPokelist() },
+
+  async fetchPokelist () {
+    this.isLoading = true
+    this.pokelist = await PokemonRepository.getPokemons(this.getParams)
+    this.pageCount = await PokemonRepository.getPageCount()
+    this.isLoading = false
+  },
+
+  async setFilters (filters) {
+    this.filters = filters
+    this.page = 0
+    await this.fetchPokelist()
   },
 
   get maxPage () {
@@ -30,16 +45,6 @@ const createStore = () => ({
     return this.isLoading || (this.page + 1 >= this.maxPage)
   },
 
-  // TODO: add to init method in order to set loading
-  async fetchPageCount () {
-    if (this.filters?.searchText || this.filters?.types?.length) {
-      this.pageCount = PokemonRepository.getCount()
-    } else {
-      this.pageCount = await PokemonRepository.getPokemonsCount()
-    }
-  },
-  setRowsPerPage (rowsPerPage) { this.rowsPerPage = rowsPerPage; this.fetchPokelist() },
-
   // TODO: pokelistPar
   get getParams () {
     return {
@@ -47,20 +52,6 @@ const createStore = () => ({
       offset: this.page * this.rowsPerPage,
       filters: this.filters
     }
-  },
-
-  async fetchPokelist () {
-    this.isLoading = true
-    const pokemons = await PokemonRepository.getPokemons(this.getParams)
-    this.setPokelist(pokemons)
-    this.fetchPageCount()
-    this.isLoading = false
-  },
-
-  async setFilters (filters) {
-    this.filters = filters
-    this.setPage(0)
-    await this.fetchPokelist()
   }
 })
 

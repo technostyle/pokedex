@@ -35,32 +35,6 @@ export class PokemonService {
     }
   }
 
-  getPokemons = async (limitOffset) => {
-    let pokemonsRawList
-    try {
-      const pokemonsResponse = await request.get(`${REQUEST_URL}/pokemon`, limitOffset)
-      pokemonsRawList = get(pokemonsResponse, 'data.results', [])
-    } catch (e) {
-      throw new Error(e)
-    }
-
-    return await this.getPokemonForm(pokemonsRawList)
-  }
-
-  getPokemonForm = async (pokemonsRawList) => {
-    const promiseCreator = ({ name }) => request.get(`${REQUEST_URL}/pokemon-form/${name}`)
-    const promises = pokemonsRawList.map(promiseCreator)
-
-    try {
-      return (await Promise.all(promises))
-        // TODO stick maps
-        .map(prop('data'))
-        .map(item => ({ avatar: get(item, 'sprites.front_default'), type: get(item, 'version_group.name'), id: get(item, 'id'), name: get(item, 'name') }))
-    } catch (e) {
-      throw new Error(e)
-    }
-  }
-
   getPokemonTypes = async () => {
     let pokemonTypes, pokemonTypesCount
     // TODO: move api logic to pokemon-repository

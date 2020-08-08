@@ -65,6 +65,7 @@ export const TypeFilter = observer(() => {
     <div>
       <FormControl className={classes.formControl}>
         <Select
+          disabled={store.isLoading}
           labelId="demo-mutiple-checkbox-label"
           id="demo-mutiple-checkbox"
           multiple
