@@ -1,5 +1,5 @@
-import { isEmpty, flatten, uniq } from 'lodash'
-import { prop } from 'utils'
+import { flatten, uniq } from 'lodash'
+import { prop } from 'utils/collections'
 import { mapPokemonFromServerToClient } from 'utils/mappers'
 import { asyncDebounce } from 'utils/async-debounce'
 
@@ -9,9 +9,11 @@ export class PokemonRepository {
   constructor (pokemonService) {
     this.service = pokemonService
     this.allPokemonNames = []
-    this.filteredPokemonNames = []
-    this.storeAllPokemonNames()
     this.count = 0
+  }
+
+  init = async () => {
+    await this.storeAllPokemonNames()
   }
 
   getPokemonNamesByTypes = async (types) => {
@@ -30,16 +32,8 @@ export class PokemonRepository {
     }
   }
 
-  getCount () {
+  properGetPageCount = () => {
     return this.count
-  }
-
-  async getPageCount () {
-    if (this.filters?.searchText || this.filters?.types?.length) {
-      return this.count
-    } else {
-      return await this.getPokemonsCount()
-    }
   }
 
   getPokemonsCount = async () => {
@@ -60,39 +54,33 @@ export class PokemonRepository {
     }
   }
 
-  getPokemons = async ({ filters, limit, offset }) => {
-    this.filters = filters
-
-    if (!isEmpty(filters)) {
-      return await this.getFilteredPokemons(filters, limit, offset)
-    }
-
-    try {
-      const rawPokemonsNames = await this.service.getPokemonNames({ limit, offset })
-      const pokemonNames = rawPokemonsNames.map(prop('name'))
-      return this.getPokemonsByNames(pokemonNames)
-    } catch (e) {
-      throw new Error(e)
-    }
-  }
-
-  getPokemonNamesBySubstring = (substring, limit, offset) => {
-    const substr = substring.toLowerCase()
-    const filteredByName = this.filteredPokemonNames.filter(name => name.includes(substr))
-    this.count = filteredByName.length
-    return filteredByName.slice(offset, offset + limit)
-  }
-
-  getFilteredPokemons = asyncDebounce(async (filters, limit, offset) => {
-    this.filteredPokemonNames = this.allPokemonNames
-    const { searchText, types } = filters
-    if (types?.length) {
-      const pokemonNamesByTypes = await this.getPokemonNamesByTypes(types)
-      this.filteredPokemonNames = pokemonNamesByTypes
-      this.count = pokemonNamesByTypes.length
-    }
-
-    const pokemonNames = this.getPokemonNamesBySubstring(searchText, limit, offset)
+  properGetPokemons = async ({ filters, limit, offset }) => {
+    const pokemonNames = await this.properGetPokemonNames({ filters, limit, offset })
     return await this.getPokemonsByNames(pokemonNames)
-  }, FILTER_DEBOUNCE_TIME);
+  }
+
+  properGetFilteredPokemonNames = asyncDebounce(async (filters) => {
+    let pokemonNames = this.allPokemonNames
+
+    if (filters?.types?.length) {
+      pokemonNames = await this.getPokemonNamesByTypes(filters.types)
+    }
+
+    if (filters?.searchText) {
+      pokemonNames = pokemonNames.filter(name => name.includes(filters.searchText))
+    }
+
+    return pokemonNames
+  }, FILTER_DEBOUNCE_TIME)
+
+  properGetPokemonNames = async ({ filters, limit, offset }) => {
+    let pokemonNames = this.allPokemonNames
+
+    if (filters?.types?.length || filters?.searchText) {
+      pokemonNames = await this.properGetFilteredPokemonNames(filters)
+    }
+
+    this.count = pokemonNames.length
+    return pokemonNames.slice(offset, offset + limit)
+  }
 }
