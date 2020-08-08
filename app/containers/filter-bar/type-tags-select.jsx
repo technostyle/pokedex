@@ -80,6 +80,7 @@ export const TypeTagsSelect = observer(() => {
       <FormControl className={classes.formControl}>
         <InputLabel id="demo-mutiple-chip-label">Select types</InputLabel>
         <Select
+          disabled={store.isLoading}
           labelId="demo-mutiple-chip-label"
           id="demo-mutiple-chip"
           multiple
