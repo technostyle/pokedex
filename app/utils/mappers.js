@@ -7,7 +7,7 @@ export const mapPokemonFromServerToClient = pokemon => ({
   avatar: get(pokemon, 'data.sprites.front_default'),
   types: get(pokemon, 'data.types', []).map(prop('type.name')),
   abilities: get(pokemon, 'data.abilities', []).map(({ is_hidden, ability }) => ({
-    hidden: `hidden: ${is_hidden ? 'yes' : 'no'}`,
+    hidden: `${is_hidden ? 'hidden' : ''}`,
     name: get(ability, 'name')
   })),
   species: get(pokemon, 'data.species.name'),
