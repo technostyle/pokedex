@@ -17,14 +17,16 @@ export const Pagination = observer(() => {
 
   return (
     <TablePagination
+      nextIconButtonProps={{ disabled: store.nextButtonDisabled }}
+      backIconButtonProps={{ disabled: store.backButtonDisabled }}
       component="div"
-      count={store.pageCount}
-      page={store.page}
+      count={store.isLoading ? 0 : store.pageCount}
+      page={store.isLoading ? 0 : store.page}
       onChangePage={handleChangePage}
-      rowsPerPage={store.rowsPerPage}
+      rowsPerPage={store.isLoading ? 0 : store.rowsPerPage}
       onChangeRowsPerPage={handleChangeRowsPerPage}
       labelRowsPerPage='cards per page'
-      rowsPerPageOptions={[5, 10, 20, 50]}
+      rowsPerPageOptions={store.isLoading ? [] : [10, 20, 50]}
     />
   )
 })

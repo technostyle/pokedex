@@ -9,13 +9,27 @@ const createStore = () => ({
   pokelist: [],
   setPokelist (pokelist) { this.pokelist = pokelist },
   page: 0,
-  pageCount: 500,
+  // TODO: rename count
+  pageCount: 0,
   rowsPerPage: 10,
   filters: {},
   setPage (page) {
     this.page = page
     this.fetchPokelist()
   },
+
+  get maxPage () {
+    return this.pageCount && Math.ceil(this.pageCount / this.rowsPerPage)
+  },
+
+  get backButtonDisabled () {
+    return this.isLoading || (this.page === 0)
+  },
+
+  get nextButtonDisabled () {
+    return this.isLoading || (this.page + 1 >= this.maxPage)
+  },
+
   // TODO: add to init method in order to set loading
   async fetchPageCount () {
     if (this.filters?.searchText || this.filters?.types?.length) {

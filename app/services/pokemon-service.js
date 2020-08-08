@@ -35,7 +35,6 @@ export class PokemonService {
     }
   }
 
-  getPokemon
   getPokemons = async (limitOffset) => {
     let pokemonsRawList
     try {

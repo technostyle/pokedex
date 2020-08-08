@@ -78,7 +78,6 @@ export class PokemonRepository {
     const { searchText, types } = filters
     if (types?.length) {
       const pokemonNamesByTypes = await this.getPokemonNamesByTypes(types)
-      console.log({ pokemonNamesByTypes })
       this.filteredPokemonNames = pokemonNamesByTypes
       this.count = pokemonNamesByTypes.length
     }
