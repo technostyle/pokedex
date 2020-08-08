@@ -1,6 +1,5 @@
 import { get } from 'lodash'
 import { REQUEST_URL } from 'api/constants'
-import { request } from 'api/http'
 import { prop } from 'utils'
 
 export class PokemonService {
@@ -17,10 +16,9 @@ export class PokemonService {
     }
   }
 
-  // TODO: rename limitOffset to params
-  getPokemonNames = async (limitOffset) => {
+  getPokemonNames = async (params) => {
     try {
-      const pokemonsResponse = await this.httpService.get(`${REQUEST_URL}/pokemon`, limitOffset)
+      const pokemonsResponse = await this.httpService.get(`${REQUEST_URL}/pokemon`, params)
       return get(pokemonsResponse, 'data.results', [])
     } catch (e) {
       throw new Error(e)
@@ -29,7 +27,7 @@ export class PokemonService {
 
   getFullPokemonInfo = async (name) => {
     try {
-      return await request.get(`${REQUEST_URL}/pokemon/${name}`)
+      return await this.httpService.get(`${REQUEST_URL}/pokemon/${name}`)
     } catch (e) {
       throw new Error(e)
     }
@@ -41,6 +39,7 @@ export class PokemonService {
     try {
       const pokemonsResponse = await this.httpService.get(`${REQUEST_URL}/type`)
       pokemonTypesCount = get(pokemonsResponse, 'data.count', 0)
+      // TODO: get rid of types
       pokemonTypes = get(pokemonsResponse, 'data.results', [])
     } catch (e) {
       throw new Error(e)
