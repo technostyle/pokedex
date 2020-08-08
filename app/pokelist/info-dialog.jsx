@@ -6,7 +6,7 @@ import { useStore } from 'store'
 import { flow } from 'lodash'
 import { equals, prop } from '../utils'
 import { InfoTable } from './info-dialog-table'
-import { AbilitiesTable } from './abilities-table'
+import { AbilitiesList } from './abilities-list'
 
 export const InfoDialog = observer(({ open, onClose, pokemonName }) => {
   const store = useStore()
@@ -20,7 +20,7 @@ export const InfoDialog = observer(({ open, onClose, pokemonName }) => {
     <div>
       <Dialog onClose={onClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle id="simple-dialog-title">{pokemonName}</DialogTitle>
-        {pokemon && <AbilitiesTable pokemon={pokemon}/> }
+        {pokemon && <AbilitiesList pokemon={pokemon}/> }
         {pokemon && <InfoTable pokemon={pokemon}/>}
       </Dialog>
     </div>

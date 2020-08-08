@@ -60,7 +60,6 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       title: 'Pokedex',
-      // icon: 'https://pokeapi.co/favicon.ico',
       icon: 'https://assets.pokemon.com/static2/_ui/img/favicon.ico',
       reactRootMount: 'root',
       template: path.resolve(__dirname, 'template.html')

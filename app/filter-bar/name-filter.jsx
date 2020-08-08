@@ -76,7 +76,6 @@ export const NameFilter = observer(() => {
   const onChange = event => {
     const value = event.target.value
     setSearchText(value)
-    // store.setSearchSubstring(value)
   }
 
   useEffect(() => {
