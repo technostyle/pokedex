@@ -25,7 +25,7 @@ export const Pokecard = ({ name, avatar, types, height, weight, onCardClick }) =
         <CardMedia
           className={classes.media}
           title={name}
-          image={avatar}
+          image={avatar || 'https://assets.pokemon.com/static2/_ui/img/favicon.ico'}
         />
         {/* TODO: добавить описание */}
         <CardContent>
