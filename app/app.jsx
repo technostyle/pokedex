@@ -13,10 +13,10 @@ export const App = observer(() => {
   const store = useStore()
   useEffect(() => {
     const fetchPokelist = async () => await store.fetchPokelist()
-    const fetchPageCount = async () => await store.fetchPageCount()
+    // const fetchPageCount = async () => await store.fetchPageCount()
     // TODO: name it on init or something
     fetchPokelist()
-    fetchPageCount()
+    // fetchPageCount()
   }, [])
 
   return (<>
