@@ -7,9 +7,9 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import Chip from '@material-ui/core/Chip'
-import { useStore } from '../store'
-import { pokemonService } from '../services/pokemon-service'
-import { prop } from '../utils'
+import { useStore } from '../../store'
+import { pokemonService } from '../../services/pokemon-service'
+import { prop } from '../../utils'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -22,9 +22,6 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: 2
-  },
-  noLabel: {
-    marginTop: theme.spacing(3)
   }
 }))
 
@@ -53,7 +50,7 @@ export const TypeTagsSelect = observer(() => {
   const [types, setTypes] = useState([])
 
   const theme = useTheme()
-  const [personName, setPersonName] = React.useState([])
+  const [personName, setPersonName] = useState([])
 
   const store = useStore()
 

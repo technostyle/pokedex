@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import { arrayPartition } from 'utils'
 import { Pokecard } from './pokecard'
-import { Spinner } from '../components/spinner'
+import { Spinner } from '../../components/spinner'
 import { InfoDialog } from './info-dialog'
-import { EmptyGrid } from '../components/empty-grid'
-import { useStore } from '../store'
-import { useWindowSize } from '../hooks/window-size'
+import { EmptyGrid } from '../../components/empty-grid'
+import { useStore } from '../../store'
+import { useWindowSize } from '../../hooks/window-size'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -18,13 +18,13 @@ const useStyles = makeStyles(() => ({
 
 const FormRow = ({ row, onCardClick, cols }) => {
   return (
-    <React.Fragment>
+    <>
       {row.map(({ name, avatar, types, baseExperience, height, weight }, idx) => (
         <Grid key={idx} item xs={12 / cols}>
           <Pokecard name={name} avatar={avatar} types={types} baseExperience={baseExperience} height={height} weight={weight} onCardClick={onCardClick}/>
         </Grid>
       ))}
-    </React.Fragment>
+    </>
   )
 }
 

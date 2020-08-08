@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { createContext, useContext } from 'react'
 import { useLocalStore } from 'mobx-react-lite'
 import { pokemonRepository } from 'repositories/pokemon-repository'
 
-const storeContext = React.createContext(null)
+const storeContext = createContext(null)
 
 const createStore = () => ({
   isLoading: false,
@@ -68,7 +68,7 @@ export const StoreProvider = ({ children }) => {
 }
 
 export const useStore = () => {
-  const store = React.useContext(storeContext)
+  const store = useContext(storeContext)
   if (!store) {
     throw new Error('useStore must be used within a StoreProvider.')
   }

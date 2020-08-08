@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog'
 import { observer } from 'mobx-react-lite'
 import { useStore } from 'store'
 import { flow } from 'lodash'
-import { equals, prop } from '../utils'
+import { equals, prop } from '../../utils'
 import { InfoTable } from './info-dialog-table'
 import { AbilitiesList } from './abilities-list'
 
