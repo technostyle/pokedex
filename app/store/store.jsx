@@ -18,7 +18,7 @@ const createStore = () => ({
   },
   // TODO: add to init method in order to set loading
   async fetchPageCount () {
-    if (this.filters?.searchText) {
+    if (this.filters?.searchText || this.filters?.types?.length) {
       this.pageCount = PokemonRepository.getCount()
     } else {
       this.pageCount = await PokemonRepository.getPokemonsCount()

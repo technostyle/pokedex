@@ -8,6 +8,8 @@ import Select from '@material-ui/core/Select'
 import Checkbox from '@material-ui/core/Checkbox'
 import { prop } from 'utils'
 import { PokemonService } from '../services'
+import { observer } from 'mobx-react-lite'
+import { useStore } from 'store'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -37,11 +39,13 @@ function getStyles (name, personName, theme) {
   }
 }
 
-export const TypeFilter = () => {
+export const TypeFilter = observer(() => {
   const classes = useStyles()
   const theme = useTheme()
   const [types, setTypes] = useState([])
   const [personName, setPersonName] = React.useState([])
+
+  const store = useStore()
 
   useEffect(() => {
     const fetchPokemonTypes = async () => {
@@ -54,6 +58,7 @@ export const TypeFilter = () => {
 
   const handleChange = (event) => {
     setPersonName(event.target.value)
+    store.setFilters({ ...store.filters, types: event.target.value })
   }
 
   return (
@@ -79,4 +84,4 @@ export const TypeFilter = () => {
       </FormControl>
     </div>
   )
-}
+})

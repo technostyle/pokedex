@@ -80,7 +80,7 @@ export const NameFilter = observer(() => {
   }
 
   useEffect(() => {
-    const filterPokemonsBySubstring = async () => { await store.setFilters({ searchText }) }
+    const filterPokemonsBySubstring = async () => { await store.setFilters({ ...store.filters, searchText }) }
     filterPokemonsBySubstring()
   }, [searchText])
 

@@ -35,6 +35,7 @@ export class PokemonService {
     }
   }
 
+  getPokemon
   getPokemons = async (limitOffset) => {
     let pokemonsRawList
     try {
@@ -63,7 +64,7 @@ export class PokemonService {
 
   getPokemonTypes = async () => {
     let pokemonTypes, pokemonTypesCount
-    // TODO: move api logic to pokemon-handler
+    // TODO: move api logic to pokemon-repository
     try {
       const pokemonsResponse = await request.get(`${REQUEST_URL}/type`)
       pokemonTypesCount = get(pokemonsResponse, 'data.count', 0)
@@ -73,5 +74,15 @@ export class PokemonService {
     }
 
     return { pokemonTypes, pokemonTypesCount }
+  }
+
+  // TODO: move api logic to pokemon-repository
+  getPokemonNamesByType = async (type) => {
+    try {
+      const typeResponse = await request.get(`${REQUEST_URL}/type/${type}`)
+      return get(typeResponse, 'data.pokemon', []).map(prop('pokemon.name'))
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 }
