@@ -29,11 +29,11 @@ const FormRow = ({ row, onCardClick, cols }) => {
 }
 
 const getCols = width => {
-  if (width < 360) {
+  if (width < 720) {
     return 1
   }
 
-  if (width < 720) {
+  if (width < 960) {
     return 2
   }
 
@@ -69,7 +69,7 @@ export const Pokelist = observer(() => {
       {
         store.isLoading
           ? <Spinner/>
-          : <Grid container spacing={1}>
+          : <Grid container spacing={3} justify='center' alignItems='center'>
             {/* TODO: make proper idx */}
             {rowsList.length
               ? rowsList.map((row, idx) => (
