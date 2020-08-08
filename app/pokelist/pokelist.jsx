@@ -8,18 +8,19 @@ import { Spinner } from '../components/spinner'
 import { InfoDialog } from './info-dialog'
 import { EmptyGrid } from '../components/empty-grid'
 import { useStore } from '../store'
+import { useWindowSize } from '../hooks/window-size'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1
   }
 }))
 
-const FormRow = ({ row, onCardClick }) => {
+const FormRow = ({ row, onCardClick, cols }) => {
   return (
     <React.Fragment>
       {row.map(({ name, avatar, types, baseExperience, height, weight }, idx) => (
-        <Grid key={idx} item xs={4}>
+        <Grid key={idx} item xs={12 / cols}>
           <Pokecard name={name} avatar={avatar} types={types} baseExperience={baseExperience} height={height} weight={weight} onCardClick={onCardClick}/>
         </Grid>
       ))}
@@ -27,11 +28,28 @@ const FormRow = ({ row, onCardClick }) => {
   )
 }
 
+const getCols = width => {
+  if (width < 360) {
+    return 1
+  }
+
+  if (width < 720) {
+    return 2
+  }
+
+  if (width < 1024) {
+    return 3
+  }
+
+  return 4
+}
 export const Pokelist = observer(() => {
   const store = useStore()
 
   const [isInfoModalOpen, setInfoModalOpen] = useState(false)
   const [selectedPokemon, setSelectedPokemon] = useState(null)
+  const windowSize = useWindowSize()
+
   const onCardClick = (name) => {
     setInfoModalOpen(true)
     setSelectedPokemon(name)
@@ -43,7 +61,7 @@ export const Pokelist = observer(() => {
 
   const classes = useStyles()
 
-  const cols = 3
+  const cols = getCols(windowSize.width)
   const rowsList = arrayPartition(store.pokelist, cols)
 
   return (
@@ -56,7 +74,7 @@ export const Pokelist = observer(() => {
             {rowsList.length
               ? rowsList.map((row, idx) => (
                 <Grid key={idx} container item xs={12} spacing={3}>
-                  <FormRow row={row} onCardClick={onCardClick}/>
+                  <FormRow row={row} onCardClick={onCardClick} cols={cols}/>
                 </Grid>
               ))
               : <EmptyGrid title='No Pokemons'/>
