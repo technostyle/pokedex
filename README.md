@@ -2,6 +2,8 @@
 
 Environment: https://technostyle.github.io/pokedex/
 
+Node: v12.16.2 (eslint commit hook may not run on lower versions)
+
 Development: 
 ```
 git clone https://github.com/technostyle/pokedex.git
