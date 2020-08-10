@@ -67,7 +67,7 @@ export class PokemonRepository {
     }
 
     if (filters?.searchText) {
-      pokemonNames = pokemonNames.filter(name => name.includes(filters.searchText))
+      pokemonNames = pokemonNames.filter(name => name.includes(filters.searchText.toLowerCase()))
     }
 
     return pokemonNames
